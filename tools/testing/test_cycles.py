@@ -2,7 +2,8 @@
 
 from mcp.server.fastmcp import FastMCP
 
-from .utils import get_client, parse_csv, to_json
+from ..client import get_client
+from ..helpers import parse_csv, to_json
 
 
 def register(mcp: FastMCP) -> None:

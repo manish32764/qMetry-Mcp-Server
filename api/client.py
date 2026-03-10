@@ -2,7 +2,7 @@
 QMetryClient — public facade that composes all domain mixins over the HTTP base.
 
 Usage:
-    from qmetry.client import QMetryClient
+    from api.client import QMetryClient
 
     with QMetryClient() as c:
         projects = c.list_projects()
@@ -17,10 +17,10 @@ from .folders import FoldersMixin
 from .metadata import MetadataMixin
 from .projects import ProjectsMixin
 from .requirements import RequirementsMixin
-from .test_cases import TestCasesMixin
-from .test_cycles import TestCyclesMixin
-from .test_plans import TestPlansMixin
-from .test_steps import TestStepsMixin
+from .testing.test_cases import TestCasesMixin
+from .testing.test_cycles import TestCyclesMixin
+from .testing.test_plans import TestPlansMixin
+from .testing.test_steps import TestStepsMixin
 
 
 class QMetryClient(

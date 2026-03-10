@@ -7,17 +7,8 @@ To add a new domain: create a new module with register(mcp), then add it here.
 
 from mcp.server.fastmcp import FastMCP
 
-from . import (
-    folders,
-    metadata,
-    pipeline,
-    projects,
-    requirements,
-    test_cases,
-    test_cycles,
-    test_plans,
-    test_steps,
-)
+from . import folders, metadata, pipeline, projects, requirements
+from .testing import test_cases, test_cycles, test_plans, test_steps
 
 _MODULES = [
     projects,

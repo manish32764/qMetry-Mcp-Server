@@ -1,19 +1,11 @@
 """
-Shared utilities for MCP tool modules.
+Shared helper utilities for MCP tool modules.
 
-This is the single import point for qmetry.client — no tool module should
-import QMetryClient directly, keeping tool code decoupled from the client layer.
+Provides JSON serialisation and argument parsing helpers used across tool modules.
 """
 
 import json
 from typing import Any
-
-from qmetry.client import QMetryClient
-
-
-def get_client() -> QMetryClient:
-    """Create a fresh client per call (stateless — reads env vars each time)."""
-    return QMetryClient()
 
 
 def to_json(data: Any) -> str:
