@@ -56,7 +56,8 @@ class QMetryBaseClient:
     def _post(self, path: str, body: dict | None = None, params: dict | None = None) -> Any:
         r = self._http.post(path, json=body or {}, params=params)
         r.raise_for_status()
-        return r.json()
+        # Some POST endpoints (e.g. link_test_cases_to_cycle) return 204 with no body
+        return r.json() if r.content else {"status": "ok"}
 
     def _put(self, path: str, body: dict | None = None) -> Any:
         r = self._http.put(path, json=body or {})

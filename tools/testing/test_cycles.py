@@ -82,15 +82,25 @@ def register(mcp: FastMCP) -> None:
             )
 
     @mcp.tool()
-    def link_test_cases_to_cycle(cycle_id: str, test_case_keys: str) -> str:
+    def link_test_cases_to_cycle(
+        cycle_id: str,
+        test_case_keys: str,
+        project_id: str = "",
+    ) -> str:
         """Add test cases to a test cycle.
 
         Args:
             cycle_id:        Test cycle ID (returned by create_test_cycle).
             test_case_keys:  Comma-separated test case keys (e.g. "TC-1,TC-2,TC-3").
+            project_id:      Numeric project ID — required to scope the lookup.
+                             Get it from list_projects or from create_test_cycle.
         """
         with get_client() as c:
-            return to_json(c.link_test_cases_to_cycle(cycle_id, parse_csv(test_case_keys)))
+            return to_json(
+                c.link_test_cases_to_cycle(
+                    cycle_id, parse_csv(test_case_keys), project_id=project_id
+                )
+            )
 
     @mcp.tool()
     def unlink_test_cases_from_cycle(cycle_id: str, test_case_keys: str) -> str:

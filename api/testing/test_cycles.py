@@ -57,12 +57,22 @@ class TestCyclesMixin:
         return self._put(f"testcycles/{cycle_id}", body=body)
 
     def link_test_cases_to_cycle(
-        self, cycle_id: str, test_case_keys: list[str]
+        self, cycle_id: str, test_case_keys: list[str], project_id: str = ""
     ) -> dict:
-        """POST /testcycles/{id}/testcases — add test cases to a cycle."""
+        """POST /testcycles/{id}/testcases — add test cases to a cycle.
+
+        The API requires a filter wrapper; projectId scopes which test cases
+        to search. If test_case_keys is empty the filter adds all TCs in the
+        project, so always pass at least one key.
+        """
+        f: dict = {}
+        if project_id:
+            f["projectId"] = project_id
+        if test_case_keys:
+            f["testCaseKeys"] = test_case_keys
         return self._post(
             f"testcycles/{cycle_id}/testcases",
-            body={"testCaseKeys": test_case_keys},
+            body={"filter": f},
         )
 
     def unlink_test_cases_from_cycle(
