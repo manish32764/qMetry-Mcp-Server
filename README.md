@@ -15,28 +15,33 @@ qmetry_mcp/
 │
 ├── tools/                     ← MCP layer (what agents call)
 │   ├── __init__.py            ← register_all(mcp)
-│   ├── utils.py               ← shared helpers: get_client, to_json, parse_csv, parse_json
+│   ├── client.py              ← get_client() helper
+│   ├── helpers.py             ← shared utilities: parse_json, parse_csv, to_json
 │   ├── projects.py
-│   ├── test_cases.py
-│   ├── test_steps.py
 │   ├── requirements.py
-│   ├── test_cycles.py
-│   ├── test_plans.py
 │   ├── folders.py
 │   ├── metadata.py
-│   └── pipeline.py            ← composite: publish_test_cases_from_story
+│   ├── pipeline.py            ← composite: publish_test_cases_from_story
+│   └── testing/
+│       ├── __init__.py
+│       ├── test_cases.py
+│       ├── test_steps.py
+│       ├── test_cycles.py
+│       └── test_plans.py
 │
-├── qmetry/                    ← REST layer (HTTP calls, no MCP)
+├── api/                       ← REST layer (HTTP calls, no MCP)
+│   ├── __init__.py            ← exports QMetryClient
 │   ├── client.py              ← QMetryClient facade (composes all mixins)
 │   ├── base_client.py         ← HTTP transport: httpx, auth, _get/_post/_put/_delete
 │   ├── projects.py
-│   ├── test_cases.py
-│   ├── test_steps.py
 │   ├── requirements.py
-│   ├── test_cycles.py
-│   ├── test_plans.py
 │   ├── folders.py
-│   └── metadata.py
+│   ├── metadata.py
+│   └── testing/
+│       ├── test_cases.py
+│       ├── test_steps.py
+│       ├── test_cycles.py
+│       └── test_plans.py
 │
 ├── .env.example
 └── requirements.txt
