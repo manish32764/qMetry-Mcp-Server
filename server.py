@@ -21,25 +21,24 @@ from mcp.server.fastmcp import FastMCP
 
 from tools import register_all
 
-mcp = FastMCP(
-    "qmetry-test-manager",
-    description=(
-        "Test Management tools for qMetry: create and manage test cases, "
-        "test steps, test cycles, test plans, folders, and Jira requirement links."
-    ),
-)
 
-register_all(mcp)
-
-if __name__ == "__main__":
+def main() -> None:
     parser = argparse.ArgumentParser(description="qMetry Test Management MCP Server")
     parser.add_argument("--http", action="store_true", help="Run as HTTP server (Streamable HTTP)")
     parser.add_argument("--port", type=int, default=8000, help="HTTP port (default: 8000)")
-    parser.add_argument("--host", type=str, default="0.0.0.0", help="HTTP host (default: 0.0.0.0)")
+    parser.add_argument("--host", type=str, default="127.0.0.1", help="HTTP host (default: 127.0.0.1)")
     args = parser.parse_args()
 
     if args.http:
+        mcp = FastMCP("qmetry-test-manager", host=args.host, port=args.port)
+        register_all(mcp)
         print(f"Starting qMetry MCP server (HTTP) on {args.host}:{args.port}", file=sys.stderr)
-        mcp.run(transport="streamable-http", host=args.host, port=args.port)
+        mcp.run(transport="streamable-http")
     else:
+        mcp = FastMCP("qmetry-test-manager")
+        register_all(mcp)
         mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()

@@ -9,7 +9,7 @@ from ..helpers import parse_csv, to_json
 def register(mcp: FastMCP) -> None:
     @mcp.tool()
     def search_test_cases(
-        project_key: str,
+        project_id: str,
         search_text: str = "",
         status: str = "",
         priority: str = "",
@@ -23,7 +23,7 @@ def register(mcp: FastMCP) -> None:
         Use this BEFORE creating test cases to avoid duplicates.
 
         Args:
-            project_key:  Jira project key (e.g. "MYPROJ").
+            project_id:   Numeric project ID (get it from list_projects).
             search_text:  Full-text search across summary/description.
             status:       Filter by status name (e.g. "Draft", "Approved").
             priority:     Filter by priority name (e.g. "High", "Medium").
@@ -35,7 +35,7 @@ def register(mcp: FastMCP) -> None:
         with get_client() as c:
             return to_json(
                 c.search_test_cases(
-                    project_key=project_key,
+                    project_id=project_id,
                     search_text=search_text,
                     status=status,
                     priority=priority,
@@ -58,12 +58,9 @@ def register(mcp: FastMCP) -> None:
 
     @mcp.tool()
     def create_test_case(
-        project_key: str,
+        project_id: str,
         summary: str,
         description: str = "",
-        priority: str = "Medium",
-        status: str = "",
-        labels: str = "",
         folder_id: str = "",
     ) -> str:
         """Create a new test case in qMetry.
@@ -72,23 +69,17 @@ def register(mcp: FastMCP) -> None:
         Call link_requirements_to_test_case to link the originating Jira story.
 
         Args:
-            project_key:  Jira project key (e.g. "MYPROJ").
+            project_id:   Numeric project ID (get it from list_projects).
             summary:      Test case title / summary.
             description:  Detailed description or objective.
-            priority:     "Critical" | "High" | "Medium" | "Low" (default "Medium").
-            status:       Initial status name (leave blank to use project default).
-            labels:       Comma-separated label names (e.g. "regression,smoke").
             folder_id:    Target folder ID (leave blank for root).
         """
         with get_client() as c:
             return to_json(
                 c.create_test_case(
-                    project_key=project_key,
+                    project_id=project_id,
                     summary=summary,
                     description=description,
-                    priority=priority,
-                    status=status,
-                    labels=parse_csv(labels) if labels else [],
                     folder_id=folder_id,
                 )
             )

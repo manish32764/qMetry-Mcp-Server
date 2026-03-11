@@ -14,7 +14,7 @@ class FoldersMixin:
         self, project_id: str, name: str, parent_id: str = ""
     ) -> dict:
         """POST /projects/{projectId}/testcase-folders"""
-        body: dict = {"name": name}
+        body: dict = {"folderName": name}
         if parent_id:
             body["parentId"] = parent_id
         return self._post(f"projects/{project_id}/testcase-folders", body=body)
@@ -29,7 +29,7 @@ class FoldersMixin:
         self, project_id: str, name: str, parent_id: str = ""
     ) -> dict:
         """POST /projects/{projectId}/testcycle-folders"""
-        body: dict = {"name": name}
+        body: dict = {"folderName": name}
         if parent_id:
             body["parentId"] = parent_id
         return self._post(f"projects/{project_id}/testcycle-folders", body=body)
@@ -44,7 +44,7 @@ class FoldersMixin:
         self, project_id: str, name: str, parent_id: str = ""
     ) -> dict:
         """POST /projects/{projectId}/testplan-folders"""
-        body: dict = {"name": name}
+        body: dict = {"folderName": name}
         if parent_id:
             body["parentId"] = parent_id
         return self._post(f"projects/{project_id}/testplan-folders", body=body)

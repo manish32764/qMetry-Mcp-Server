@@ -6,13 +6,13 @@ class TestCyclesMixin:
 
     def search_test_cycles(
         self,
-        project_key: str,
+        project_id: str,
         search_text: str = "",
         max_results: int = 50,
         start_at: int = 0,
     ) -> dict:
         """POST /testcycles/search/"""
-        body: dict = {"filter": {"projectKey": project_key}}
+        body: dict = {"filter": {"projectId": project_id}}
         if search_text:
             body["filter"]["searchText"] = search_text
         return self._post(
@@ -27,14 +27,14 @@ class TestCyclesMixin:
 
     def create_test_cycle(
         self,
-        project_key: str,
+        project_id: str,
         name: str,
         description: str = "",
         status: str = "",
         folder_id: str = "",
     ) -> dict:
         """POST /testcycles/ — create a new test cycle."""
-        body: dict = {"projectKey": project_key, "name": name}
+        body: dict = {"projectId": project_id, "summary": name}
         if description:
             body["description"] = description
         if status:

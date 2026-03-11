@@ -68,7 +68,7 @@ QMETRY_BASE_URL=https://qtmcloud.qmetry.com/rest/api/latest/
 
 ## Step 3 — Run the server
 
-### Option A — stdio (for Claude Desktop or any MCP client)
+### Option A — stdio (for any MCP client)
 
 ```bash
 python server.py
@@ -349,7 +349,7 @@ In the `.env` file as `QMETRY_API_KEY`. The server reads it at startup via envir
 **Q: The `publish_test_cases_from_story` tool had an error for one test case but others succeeded. What happened?**
 Each test case is created independently. If one fails, the rest still proceed. Check the `"errors"` array in the response — it lists exactly which test cases failed and why.
 
-**Q: How do I call this from my existing Python app (not Claude Desktop)?**
+**Q: How do I call this from my existing Python app?**
 
 ```python
 from mcp import ClientSession

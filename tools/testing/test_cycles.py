@@ -9,19 +9,19 @@ from ..helpers import parse_csv, to_json
 def register(mcp: FastMCP) -> None:
     @mcp.tool()
     def search_test_cycles(
-        project_key: str,
+        project_id: str,
         search_text: str = "",
         max_results: int = 50,
     ) -> str:
         """Search for test cycles in a project.
 
         Args:
-            project_key:  Jira project key.
+            project_id:   Numeric project ID (get it from list_projects).
             search_text:  Optional name filter.
             max_results:  Page size (default 50).
         """
         with get_client() as c:
-            return to_json(c.search_test_cycles(project_key, search_text, max_results))
+            return to_json(c.search_test_cycles(project_id, search_text, max_results))
 
     @mcp.tool()
     def get_test_cycle(cycle_id_or_key: str) -> str:
@@ -35,7 +35,7 @@ def register(mcp: FastMCP) -> None:
 
     @mcp.tool()
     def create_test_cycle(
-        project_key: str,
+        project_id: str,
         name: str,
         description: str = "",
         status: str = "",
@@ -47,7 +47,7 @@ def register(mcp: FastMCP) -> None:
         link_requirements_to_cycle to link the originating Jira story.
 
         Args:
-            project_key:  Jira project key.
+            project_id:   Numeric project ID (get it from list_projects).
             name:         Cycle name (e.g. "Sprint 12 — Login Feature").
             description:  Optional description.
             status:       Initial status (leave blank for project default).
@@ -56,7 +56,7 @@ def register(mcp: FastMCP) -> None:
         with get_client() as c:
             return to_json(
                 c.create_test_cycle(
-                    project_key=project_key,
+                    project_id=project_id,
                     name=name,
                     description=description,
                     status=status,

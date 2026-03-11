@@ -6,7 +6,7 @@ class TestCasesMixin:
 
     def search_test_cases(
         self,
-        project_key: str,
+        project_id: str,
         search_text: str = "",
         status: str = "",
         priority: str = "",
@@ -17,8 +17,8 @@ class TestCasesMixin:
     ) -> dict:
         """POST /testcases/search/ — search test cases with filters."""
         body: dict = {"filter": {}}
-        if project_key:
-            body["filter"]["projectKey"] = project_key
+        if project_id:
+            body["filter"]["projectId"] = project_id
         if search_text:
             body["filter"]["searchText"] = search_text
         if status:
@@ -41,24 +41,17 @@ class TestCasesMixin:
 
     def create_test_case(
         self,
-        project_key: str,
+        project_id: str,
         summary: str,
         description: str = "",
-        priority: str = "Medium",
-        status: str = "",
-        labels: list[str] | None = None,
         folder_id: str = "",
     ) -> dict:
-        """POST /testcases/ — create a new test case (no steps yet)."""
-        body: dict = {"projectKey": project_key, "summary": summary}
+        """POST /testcases/ — create a new test case.
+        Note: priority/status/labels are not accepted at creation; use update_test_case after.
+        """
+        body: dict = {"projectId": project_id, "summary": summary}
         if description:
             body["description"] = description
-        if priority:
-            body["priority"] = priority
-        if status:
-            body["status"] = status
-        if labels:
-            body["labels"] = labels
         if folder_id:
             body["folderId"] = folder_id
         return self._post("testcases/", body=body)
