@@ -7,9 +7,9 @@ class TestStepsMixin:
     def get_test_steps(
         self, test_case_id: str, version_no: int, max_results: int = 100
     ) -> dict:
-        """POST /testcases/{id}/versions/{no}/teststeps/search/"""
+        """POST /testcases/{id}/versions/{no}/teststeps/search"""
         return self._post(
-            f"testcases/{test_case_id}/versions/{version_no}/teststeps/search/",
+            f"testcases/{test_case_id}/versions/{version_no}/teststeps/search",
             body={"filter": {}},
             params={"maxResults": max_results, "startAt": 0},
         )

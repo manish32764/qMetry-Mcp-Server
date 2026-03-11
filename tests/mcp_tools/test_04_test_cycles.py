@@ -130,7 +130,8 @@ class TestGetAndSearchTestCycle:
         result = await session.call_tool("get_test_cycle", {"cycle_id_or_key": cycle_id})
         pp("get_test_cycle (by id)", tool_text(result))
         data = tool_json(result)
-        returned_id = str(data.get("id", data.get("cycleId", "")))
+        payload = data.get("data", data)  # API wraps response under "data" key
+        returned_id = str(payload.get("id", payload.get("cycleId", "")))
         assert returned_id == cycle_id
 
     @pytest.mark.asyncio

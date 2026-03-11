@@ -16,6 +16,7 @@ Requirements:
 """
 
 import asyncio
+import inspect
 import json
 import os
 import sys
@@ -90,18 +91,6 @@ def _server_params() -> StdioServerParameters:
 
 
 # ---------------------------------------------------------------------------
-# Session-scoped event loop (required for session-scoped async fixtures)
-# ---------------------------------------------------------------------------
-
-@pytest.fixture(scope="session")
-def event_loop():
-    """Single event loop shared across the entire test session."""
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
-
-
-# ---------------------------------------------------------------------------
 # MCP ClientSession — started once, shared across all tests
 # ---------------------------------------------------------------------------
 
@@ -112,13 +101,30 @@ async def session():
 
     The server process lives for the entire test session and is terminated
     when the session ends.
+
+    The stdio_client uses anyio TaskGroups whose cancel scopes must be entered
+    and exited in the same asyncio Task.  Running the entire lifecycle inside a
+    dedicated task satisfies that constraint and avoids the
+    "Attempted to exit cancel scope in a different task" teardown error that
+    pytest-asyncio 1.x would otherwise trigger.
     """
-    params = _server_params()
-    async with stdio_client(params) as (read, write):
-        async with ClientSession(read, write) as client:
-            await client.initialize()
-            print("\n[conftest] MCP server started and session initialised.")
-            yield client
+    client_queue: asyncio.Queue = asyncio.Queue()
+    shutdown_event: asyncio.Event = asyncio.Event()
+
+    async def _run() -> None:
+        params = _server_params()
+        async with stdio_client(params) as (read, write):
+            async with ClientSession(read, write) as client:
+                await client.initialize()
+                print("\n[conftest] MCP server started and session initialised.")
+                await client_queue.put(client)
+                await shutdown_event.wait()  # keep alive until tests finish
+
+    task = asyncio.ensure_future(_run())
+    client = await client_queue.get()
+    yield client
+    shutdown_event.set()
+    await task
 
 
 # ---------------------------------------------------------------------------
@@ -181,3 +187,17 @@ def jira_issue_key() -> str:
 def shared_state() -> dict:
     """Mutable dict passed between test files to share created resource IDs."""
     return {}
+
+
+# ---------------------------------------------------------------------------
+# Force all async test functions to run on the session-scoped event loop.
+# Without this, pytest-asyncio 1.x gives each test a new function-scoped
+# loop, which deadlocks when the test awaits session-scoped async fixtures
+# (MCP ClientSession, asyncio queues) that were created on the session loop.
+# ---------------------------------------------------------------------------
+
+def pytest_collection_modifyitems(items):
+    session_mark = pytest.mark.asyncio(loop_scope="session")
+    for item in items:
+        if isinstance(item, pytest.Function) and inspect.iscoroutinefunction(item.function):
+            item.add_marker(session_mark, append=False)

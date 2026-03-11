@@ -75,8 +75,12 @@ class TestPlansMixin:
         )
 
     def get_plan_test_cycles(self, plan_id: str, max_results: int = 50) -> dict:
-        """GET /testplans/{id}/testcycles"""
-        return self._get(f"testplans/{plan_id}/testcycles")
+        """POST /testplans/{id}/testcycles/search"""
+        return self._post(
+            f"testplans/{plan_id}/testcycles/search",
+            body={"filter": {}},
+            params={"maxResults": max_results, "startAt": 0},
+        )
 
     def archive_test_plan(self, plan_id_or_key: str) -> dict:
         """PUT /testplans/{idOrKey}/archive"""
