@@ -119,6 +119,50 @@ def register(mcp: FastMCP) -> None:
             )
 
     @mcp.tool()
+    def move_test_case(
+        test_case_ids: str,
+        project_id: int,
+        target_folder_id: int,
+        source_folder_id: int = -1,
+    ) -> str:
+        """Move one or more test cases to a different folder.
+
+        Args:
+            test_case_ids:    Comma-separated test case IDs to move (e.g. "abc123,def456").
+            project_id:       Numeric project ID (get it from list_projects).
+            target_folder_id: Destination folder ID (get IDs from list_test_case_folders).
+            source_folder_id: Current folder ID of the test cases.
+                              Use -1 (default) if the test cases are not yet assigned to any folder.
+        """
+        with get_client() as c:
+            return to_json(
+                c.move_test_case(
+                    test_case_ids=parse_csv(test_case_ids),
+                    project_id=project_id,
+                    target_folder_id=target_folder_id,
+                    source_folder_id=source_folder_id,
+                )
+            )
+
+    @mcp.tool()
+    def clone_test_case(
+        test_case_id: str,
+        new_summary: str,
+        folder_id: int,
+        version: str = "1",
+    ) -> str:
+        """Clone a test case (copies all steps) into a target folder.
+
+        Args:
+            test_case_id: Source test case ID or key to clone.
+            new_summary:  Summary for the cloned test case.
+            folder_id:    Target folder ID for the clone (get IDs from list_test_case_folders).
+            version:      '1' to clone the latest version only, '*' to clone all versions.
+        """
+        with get_client() as c:
+            return to_json(c.clone_test_case(test_case_id, new_summary, folder_id, version))
+
+    @mcp.tool()
     def archive_test_case(test_case_id: str) -> str:
         """Archive a test case (soft delete — reversible).
 

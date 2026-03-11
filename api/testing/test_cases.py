@@ -80,6 +80,42 @@ class TestCasesMixin:
             body["labels"] = labels
         return self._put(f"testcases/{test_case_id}/versions/{version_no}", body=body)
 
+    def move_test_case(
+        self,
+        test_case_ids: list[str],
+        project_id: int,
+        target_folder_id: int,
+        source_folder_id: int = -1,
+    ) -> dict:
+        """PUT /testcases/move — move one or more test cases to a target folder.
+
+        Args:
+            source_folder_id: Current folder ID of the test cases.
+                              Use -1 if the test cases are not assigned to any folder.
+        """
+        return self._put(
+            "testcases/move",
+            body={
+                "testcaseIds": test_case_ids,
+                "targetFolderId": target_folder_id,
+                "projectId": project_id,
+                "selectedFolderId": source_folder_id,
+            },
+        )
+
+    def clone_test_case(
+        self, test_case_id: str, new_summary: str, folder_id: int, version: str = "1"
+    ) -> dict:
+        """POST /testcases/{id}/clone — duplicate a test case into a target folder.
+
+        Args:
+            version: '1' for latest version only, '*' for all versions.
+        """
+        return self._post(
+            f"testcases/{test_case_id}/clone",
+            body={"summary": new_summary, "version": version, "folderId": folder_id},
+        )
+
     def archive_test_case(self, test_case_id: str) -> dict:
         """PUT /testcases/{id}/archive"""
         return self._put(f"testcases/{test_case_id}/archive")
