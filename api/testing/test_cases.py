@@ -22,11 +22,11 @@ class TestCasesMixin:
         if search_text:
             body["filter"]["searchText"] = search_text
         if status:
-            body["filter"]["status"] = status
+            body["filter"]["status"] = [status]
         if priority:
-            body["filter"]["priority"] = priority
+            body["filter"]["priority"] = [priority]
         if label:
-            body["filter"]["label"] = label
+            body["filter"]["labels"] = [label]
         if folder_id:
             body["filter"]["folderId"] = folder_id
         return self._post(
