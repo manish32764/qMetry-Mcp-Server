@@ -10,7 +10,7 @@ Checks:
   - TEST_JIRA_ISSUE_KEY is configured (warns if missing)
 
 Run:
-    python -m pytest tests/integration/test_00_smoke.py -v -s
+    python -m pytest tests/qmetry_api/test_00_smoke.py -v -s
 """
 
 import os
@@ -18,7 +18,7 @@ import os
 import pytest
 
 from api.client import QMetryClient
-from tests.integration.conftest import pp
+from tests.qmetry_api.conftest import pp
 
 
 class TestSmoke:

@@ -1,8 +1,11 @@
-# qMetry MCP — Integration Test Suite
+# qMetry API Client — Test Suite (`tests/qmetry_api`)
 
-End-to-end integration tests that call the qMetry REST API directly through
-`QMetryClient`.  Every test in this suite hits a **live** qMetry + Jira
-instance, so you need valid credentials before running.
+Tests that call the qMetry REST API directly through `QMetryClient` (the
+Python REST wrapper).  Every test hits a **live** qMetry + Jira instance,
+so you need valid credentials before running.
+
+> **Scope:** This suite tests the `QMetryClient` Python class (REST layer).
+> To test the MCP server and its tools via the MCP protocol, see `tests/mcp_tools/`.
 
 ---
 
@@ -48,7 +51,7 @@ TEST_JIRA_ISSUE_KEY=MYPROJECT-1   # Any existing Jira issue in that project
 
 ```bash
 # From the qmetry_mcp/ directory
-python -m pytest tests/integration/ -v -s
+python -m pytest tests/qmetry_api/ -v -s
 ```
 
 ### 3 — Check the results in qMetry UI
@@ -82,22 +85,22 @@ creates what it needs on the fly or skips gracefully.
 
 ```bash
 # Smoke check only
-python -m pytest tests/integration/test_00_smoke.py -v -s
+python -m pytest tests/qmetry_api/test_00_smoke.py -v -s
 
 # Test cases only
-python -m pytest tests/integration/test_03_test_cases.py -v -s
+python -m pytest tests/qmetry_api/test_03_test_cases.py -v -s
 
 # Cycles + plans together
-python -m pytest tests/integration/test_04_test_cycles.py tests/integration/test_05_test_plans.py -v -s
+python -m pytest tests/qmetry_api/test_04_test_cycles.py tests/qmetry_api/test_05_test_plans.py -v -s
 
 # Pipeline end-to-end
-python -m pytest tests/integration/test_06_pipeline.py -v -s
+python -m pytest tests/qmetry_api/test_06_pipeline.py -v -s
 ```
 
 ## Running a Single Test
 
 ```bash
-python -m pytest tests/integration/test_03_test_cases.py::TestCreateTestCase::test_create_returns_id_and_key -v -s
+python -m pytest tests/qmetry_api/test_03_test_cases.py::TestCreateTestCase::test_create_returns_id_and_key -v -s
 ```
 
 ---

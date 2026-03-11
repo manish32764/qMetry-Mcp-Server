@@ -16,13 +16,13 @@ Tools exercised:
   archive_test_case, unarchive_test_case
 
 Run:
-    python -m pytest tests/integration/test_03_test_cases.py -v -s
+    python -m pytest tests/qmetry_api/test_03_test_cases.py -v -s
 """
 
 import pytest
 
 from api.client import QMetryClient
-from tests.integration.conftest import pp
+from tests.qmetry_api.conftest import pp
 
 # ---------------------------------------------------------------------------
 # Shared within-file state — populated by tests in order

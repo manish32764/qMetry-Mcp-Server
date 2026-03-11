@@ -14,13 +14,13 @@ Tools exercised:
   archive_test_cycle, unarchive_test_cycle
 
 Run:
-    python -m pytest tests/integration/test_04_test_cycles.py -v -s
+    python -m pytest tests/qmetry_api/test_04_test_cycles.py -v -s
 """
 
 import pytest
 
 from api.client import QMetryClient
-from tests.integration.conftest import pp
+from tests.qmetry_api.conftest import pp
 
 # ---------------------------------------------------------------------------
 # Shared within-file state

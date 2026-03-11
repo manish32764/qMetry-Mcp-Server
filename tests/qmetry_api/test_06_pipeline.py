@@ -19,7 +19,7 @@ All artefacts use the [MCP-TEST] prefix.  Cleanup is via archive only so
 artefacts remain visible in the UI.
 
 Run:
-    python -m pytest tests/integration/test_06_pipeline.py -v -s
+    python -m pytest tests/qmetry_api/test_06_pipeline.py -v -s
 """
 
 import json
@@ -27,7 +27,7 @@ import json
 import pytest
 
 from api.client import QMetryClient
-from tests.integration.conftest import pp
+from tests.qmetry_api.conftest import pp
 
 # ---------------------------------------------------------------------------
 # Sample payload — matches what an LLM would produce for the pipeline tool

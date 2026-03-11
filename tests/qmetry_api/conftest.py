@@ -1,5 +1,5 @@
 """
-pytest configuration and shared fixtures for the qMetry MCP integration suite.
+pytest configuration and shared fixtures for the qmetry_api test suite.
 
 All tests in this package share:
   - .env loading (QMETRY_API_KEY, QMETRY_BASE_URL, TEST_PROJECT_KEY, TEST_JIRA_ISSUE_KEY)
@@ -8,7 +8,7 @@ All tests in this package share:
   - `project_id` / `project_key` resolved once per session from TEST_PROJECT_KEY.
 
 Run from the qmetry_mcp/ directory:
-    python -m pytest tests/integration/ -v -s
+    python -m pytest tests/qmetry_api/ -v -s
 """
 
 import json

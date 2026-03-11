@@ -11,13 +11,13 @@ Tools exercised:
   list_test_plan_folders,  create_test_plan_folder
 
 Run:
-    python -m pytest tests/integration/test_02_folders.py -v -s
+    python -m pytest tests/qmetry_api/test_02_folders.py -v -s
 """
 
 import pytest
 
 from api.client import QMetryClient
-from tests.integration.conftest import pp
+from tests.qmetry_api.conftest import pp
 
 _FOLDER_NAME = "[MCP-TEST] Automation Suite"
 
