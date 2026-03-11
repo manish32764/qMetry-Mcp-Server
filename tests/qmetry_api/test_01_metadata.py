@@ -18,7 +18,7 @@ Run:
 import pytest
 
 from api.client import QMetryClient
-from tests.qmetry_api.conftest import pp
+from tests.qmetry_api.conftest import pp, RUN_TAG
 
 
 class TestLabels:
@@ -35,7 +35,7 @@ class TestLabels:
     def test_create_label(self, project_id):
         """create_label must return a response containing the new label's name or id."""
         with QMetryClient() as c:
-            result = c.create_label(project_id=project_id, name="[MCP-TEST] smoke-label")
+            result = c.create_label(project_id=project_id, name=f"{RUN_TAG} smoke-label")
         pp("create_label", result)
         # API may return the label object or a simple success response
         assert result is not None, "create_label returned None"

@@ -17,9 +17,9 @@ Run:
 import pytest
 
 from api.client import QMetryClient
-from tests.qmetry_api.conftest import pp
+from tests.qmetry_api.conftest import pp, RUN_TAG
 
-_FOLDER_NAME = "[MCP-TEST] Automation Suite"
+_FOLDER_NAME = f"{RUN_TAG} Automation Suite"
 
 
 def _extract_id(response: dict | list) -> str:

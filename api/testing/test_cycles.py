@@ -81,7 +81,7 @@ class TestCyclesMixin:
         """DELETE /testcycles/{id}/testcases"""
         return self._delete(
             f"testcycles/{cycle_id}/testcases",
-            body={"testCaseKeys": test_case_keys},
+            body={"filter": {"testCaseKeys": test_case_keys}},
         )
 
     def get_cycle_test_cases(

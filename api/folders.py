@@ -13,10 +13,10 @@ class FoldersMixin:
     def create_test_case_folder(
         self, project_id: str, name: str, parent_id: str = ""
     ) -> dict:
-        """POST /projects/{projectId}/testcase-folders"""
-        body: dict = {"folderName": name}
-        if parent_id:
-            body["parentId"] = parent_id
+        """POST /projects/{projectId}/testcase-folders
+        parentId -1 means root level (required by the API even when omitted).
+        """
+        body: dict = {"folderName": name, "parentId": int(parent_id) if parent_id else -1}
         return self._post(f"projects/{project_id}/testcase-folders", body=body)
 
     # --- Test Cycle Folders ---
@@ -29,9 +29,7 @@ class FoldersMixin:
         self, project_id: str, name: str, parent_id: str = ""
     ) -> dict:
         """POST /projects/{projectId}/testcycle-folders"""
-        body: dict = {"folderName": name}
-        if parent_id:
-            body["parentId"] = parent_id
+        body: dict = {"folderName": name, "parentId": int(parent_id) if parent_id else -1}
         return self._post(f"projects/{project_id}/testcycle-folders", body=body)
 
     # --- Test Plan Folders ---
@@ -44,7 +42,5 @@ class FoldersMixin:
         self, project_id: str, name: str, parent_id: str = ""
     ) -> dict:
         """POST /projects/{projectId}/testplan-folders"""
-        body: dict = {"folderName": name}
-        if parent_id:
-            body["parentId"] = parent_id
+        body: dict = {"folderName": name, "parentId": int(parent_id) if parent_id else -1}
         return self._post(f"projects/{project_id}/testplan-folders", body=body)

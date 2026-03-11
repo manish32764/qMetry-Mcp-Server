@@ -71,10 +71,10 @@ class TestPlansMixin:
         """DELETE /testplans/{id}/testcycles"""
         return self._delete(
             f"testplans/{plan_id}/testcycles",
-            body={"testCycleKeys": cycle_keys},
+            body={"filter": {"testCycleKeys": cycle_keys}},
         )
 
-    def get_plan_test_cycles(self, plan_id: str) -> dict:
+    def get_plan_test_cycles(self, plan_id: str, max_results: int = 50) -> dict:
         """GET /testplans/{id}/testcycles"""
         return self._get(f"testplans/{plan_id}/testcycles")
 

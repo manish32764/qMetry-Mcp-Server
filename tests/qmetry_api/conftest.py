@@ -14,8 +14,16 @@ Run from the qmetry_mcp/ directory:
 import json
 import os
 import sys
+from datetime import datetime
 
 import pytest
+
+# ---------------------------------------------------------------------------
+# Run tag — every artifact created in this session uses this prefix so it is
+# instantly identifiable in the qMetry UI by timestamp.
+# Format: [MCP-TEST 03-11 14:30]
+# ---------------------------------------------------------------------------
+RUN_TAG = f"[MCP-TEST {datetime.now().strftime('%m-%d %H:%M')}]"
 
 # ---------------------------------------------------------------------------
 # Bootstrap: ensure qmetry_mcp/ is on sys.path so "from api.client import ..."
